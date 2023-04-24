@@ -1,6 +1,7 @@
 // prisma/seed.ts
 
 import { PrismaClient } from '@prisma/client';
+import { dirname } from 'path';
 
 // initialize Prisma Client
 const prisma = new PrismaClient();
@@ -16,6 +17,7 @@ async function main() {
       description:
         "We are excited to share that today's Prisma ORM release adds stable support for MongoDB!",
       published: false,
+      dni: '71308101',
     },
   });
 
@@ -28,6 +30,7 @@ async function main() {
       description:
         'Learn about everything in the Prisma ecosystem and community from January to March 2022.',
       published: true,
+      dni: '71308106',
     },
   });
 

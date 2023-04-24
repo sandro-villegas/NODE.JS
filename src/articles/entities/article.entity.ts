@@ -24,4 +24,6 @@ export class ArticleEntity implements Article {
 
   @ApiProperty()
   updatedAt: Date;
+  @ApiProperty()
+  dni: string;
 }

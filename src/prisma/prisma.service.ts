@@ -1,13 +1,14 @@
 // src/prisma/prisma.service.ts
-
 import { INestApplication, Injectable } from '@nestjs/common';
 import { PrismaClient } from '@prisma/client';
 
 @Injectable()
 export class PrismaService extends PrismaClient {
   async enableShutdownHooks(app: INestApplication) {
-    this.$on('beforeExit', async () => {
-      await app.close();
+    process.on('beforeExit', async () => {
+      setTimeout(async () => {
+        await app.close();
+      }, 1000);
     });
   }
 }

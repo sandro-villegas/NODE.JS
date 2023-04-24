@@ -4,9 +4,14 @@ import { AppModule } from './app.module';
 import { SwaggerModule, DocumentBuilder } from '@nestjs/swagger';
 import { ValidationPipe } from '@nestjs/common';
 import { PrismaClientExceptionFilter } from './prisma-client-exception/prisma-client-exception.filter';
-import { NestExpressApplication } from '@nestjs/platform-express';
+//import { NestExpressApplication } from '@nestjs/platform-express';
+//import { MiMiddleware } from 'src/mi-middleware/mi-middleware.middleware';
+import { LoggerMiddleware } from './mi-middleware/mi-middleware.middleware';
+
 async function bootstrap() {
   const app = await NestFactory.create(AppModule);
+  const loggerMiddleware = new LoggerMiddleware();
+  app.use(loggerMiddleware.use.bind(loggerMiddleware));
   app.useGlobalPipes(new ValidationPipe());
   const config = new DocumentBuilder()
     .setTitle('Median')

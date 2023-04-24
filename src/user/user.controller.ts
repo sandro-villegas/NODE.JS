@@ -3,31 +3,31 @@ import {
   Get,
   Post,
   Body,
-  Patch,
   Param,
   Delete,
   NotFoundException,
+  UseGuards,
 } from '@nestjs/common';
-import { ArticlesService } from './articles.service';
-import { CreateArticleDto } from './dto/create-article.dto';
-import { UpdateArticleDto } from './dto/update-article.dto';
-import { ApiTags } from '@nestjs/swagger';
-
-@Controller('articles')
-@ApiTags('articles')
-export class ArticlesController {
+import { ArticlesService } from '../user/user.service';
+import { CreateArticleDto } from '../user/dto/create-user.dto';
+import { AuthGuard } from '@nestjs/passport';
+import { JwtAuthGuard } from './jwt-auth.guard';
+import { ApiBearerAuth } from '@nestjs/swagger';
+@ApiBearerAuth()
+@Controller('user')
+export class UserController {
   constructor(private readonly articlesService: ArticlesService) {}
 
-  @Post()
-  create(@Body() createArticleDto: CreateArticleDto) {
-    return this.articlesService.create(createArticleDto);
+  @Post('register')
+  create(@Body() userObject: CreateArticleDto) {
+    return this.articlesService.register(userObject);
   }
-
-  @Get('drafts')
-  findDrafts() {
-    return this.articlesService.findDrafts();
+  @Post('Login')
+  login(@Body() userObjectlogin: CreateArticleDto) {
+    return this.articlesService.login(userObjectlogin);
   }
-  @Get()
+  @UseGuards(JwtAuthGuard)
+  @Get('extraer')
   findAll() {
     return this.articlesService.findAll();
   }
@@ -40,12 +40,11 @@ export class ArticlesController {
     }
     return article;
   }
-
+  /*
   @Patch(':id')
   update(@Param('id') id: string, @Body() updateArticleDto: UpdateArticleDto) {
     return this.articlesService.update(+id, updateArticleDto);
-  }
-
+  }*/
   @Delete(':id')
   remove(@Param('id') id: string) {
     return this.articlesService.remove(+id);
